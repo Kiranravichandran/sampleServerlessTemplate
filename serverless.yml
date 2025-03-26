@@ -14,20 +14,27 @@ provider:
     owner: appdev
     approle: creating serverless framework
     environment: ${self:provider.stage}
-
-# plugin to run it locally
-plugins:
-  - serverless-offline
-  - serverless-webpack
+  ecr:
+    images:
+      appimage:
+        path: ./
 
 # lambda functions
 functions:
-  # sample hello world api
+  # hello world api with path parameters
   helloWorld:
-    # path of the file where the function is written
-    handler: src/api/handler.helloWorld
+    image:
+      name: appimage
     events:
       - http:
-         # http request path
-         path: /hello
+         # http request path with path parameter
+         path: /hello/{message}
          method: GET
+         request:
+           parameters:
+             paths:
+               message: true
+
+# Remove webpack plugin since we're using Docker
+plugins:
+  - serverless-offline
