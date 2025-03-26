@@ -21,31 +21,64 @@ npm install
 
 ### Local Development
 
-Run the service locally using Serverless Offline:
+For local development, you can use Serverless Offline. The following commands are available:
+
+1. Start the local development server:
 ```bash
+# Basic usage
 sls offline --stage dev --host 0.0.0.0
+
+# With custom port
+sls offline --stage dev --host 0.0.0.0 --httpPort 3000
+
+# With custom region
+sls offline --stage dev --host 0.0.0.0 --region us-east-1
 ```
 
 The service will be available at `http://localhost:3000`
 
 ### Docker Development
 
-Build the Docker image:
+1. Build the Docker image:
 ```bash
 npm run build
+# or
+docker build -t sampleserverlesstemplate .
 ```
 
-This will create a Docker image named `sampleserverlesstemplate`.
+2. Run the Docker container:
+```bash
+docker run -p 3000:3000 sampleserverlesstemplate
+```
+
+This will create and run a Docker container with the image named `sampleserverlesstemplate`.
 
 ## Deployment
 
-Deploy to AWS:
+You can deploy the service to AWS using the following commands:
+
+1. Deploy to default stage (dev) and region (us-east-1):
 ```bash
 npm run deploy
-```
-or
-```bash
+# or
 serverless deploy
+```
+
+2. Deploy with specific stage and region:
+```bash
+# Deploy to production
+serverless deploy --stage prod
+
+# Deploy to specific region
+serverless deploy --region eu-west-1
+
+# Deploy with both stage and region
+serverless deploy --stage prod --region eu-west-1
+```
+
+3. Deploy a single function:
+```bash
+serverless deploy function -f helloWorld
 ```
 
 ## API Endpoints
